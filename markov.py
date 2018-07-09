@@ -1,6 +1,7 @@
 """Generate Markov text from text files."""
 
 from random import choice
+from string import punctuation
 import sys
 
 
@@ -70,7 +71,8 @@ def make_text(chains):
 
     random_tuple = choice(list(chains.keys()))
 
-        
+    while not random_tuple[0].istitle():
+        random_tuple = choice(list(chains.keys()))
 
     words.extend(random_tuple)
 
@@ -81,7 +83,9 @@ def make_text(chains):
         reuse_words = list(random_tuple)
         reuse_words = reuse_words[1:]
         random_tuple = tuple(reuse_words) + (next_word, )
-
+        last_char = next_word[-1]
+        if last_char in punctuation:
+            break
 
     return " ".join(words)
 
